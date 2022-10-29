@@ -43,6 +43,7 @@ const Aislante = new Producto(4,"Aislante",11000)
     }
   }
 
+// si la compra supera los $15000 se le aplicara al cliente un descuento del 10%
 
 function descuento(total){
      resultado = total * 0.9

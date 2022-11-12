@@ -1,63 +1,89 @@
 
-let producto = parseInt(
-    prompt("Bienvenido a KHUMBU, elige el producto que deseas: 1 Carpa - 2 Mochila - 3 Bolsa de dormir - 4 Aislante ")
-    )
-  
-  let total = 0
-  let seguirComprando = true
-  let decision
-
   class Producto{
-    constructor(id,nombre,precio){
-        this.id = id
-        this.nombre = nombre
-        this.precio = precio
+    constructor(id,nombre,precio,stock){
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.stock = stock;
+    }
+    restarStock(){
+      this.stock = this.stock -1;
+      
     }
 }
 
-const Carpa = new Producto(1,"Carpa",15000)
-const Mochila = new Producto(2,"Mochila",20000)
-const BolsaDeDormir = new Producto(3,"Bolsa de dormir",7000)
-const Aislante = new Producto(4,"Aislante",11000)
+const prod0 = new Producto(0,"Carpa",15000,10)
+const prod1 = new Producto(1,"Mochila",20000,20)
+const prod2 = new Producto(2,"Bolsa de dormir",7000,15)
+const prod3 = new Producto(3,"Aislante",11000,30)
 
+const productos = [prod0,prod1,prod2,prod3];
+const carrito = []
 
-  while (seguirComprando === true) {
-    if (producto === 1) {
-      total = total + Carpa.precio
-    } else if (producto === 2) {
-      total = total + Mochila.precio
-    } else if (producto === 3) {
-      total = total + BolsaDeDormir.precio
-    } else if (producto === 4) {
-      total = total + Aislante.precio
-    } else {
-      producto = parseInt(prompt('Elije un producto disponible: 1 Carpa - 2 Mochila - 3 Bolsa de dormir - 4 Aislante'))
-      continue
-  }
+let productosDisponibles = "Disponemos de los siguientes productos:"
+
+function agregaCarrito(){
   
-    decision = parseInt(prompt('¿Quieres seguir comprando? 1=Si - 2=No'))
-    if (decision === 1) {
-      producto = parseInt(prompt('Selecciona: 1 Carpa - 2 Mochila - 3 Bolsa de dormir - 4 Aislante'))
-    } else {
-      seguirComprando = false
-    }
+  for (item of productos){
+      productosDisponibles +=  `\n ${item.id} - ${item.nombre}  $ ${item.precio}`
   }
 
-// si la compra supera los $15000 se le aplicara al cliente un descuento del 10%
+  productosDisponibles += `\n Ingresa el Nro de item que deseas agregar. \n Para finalizar ingresa 50`
 
-function descuento(total){
-     resultado = total * 0.9
-    alert(`Gracias por elegirnos, tenes un 10% de descuento debes abonar $ ${resultado}`)
+  let respuesta = parseInt(prompt(productosDisponibles)) 
+
+  while(isNaN(respuesta)){
+    alert("ingrese solo números")
+    respuesta = parseInt(prompt(productosDisponibles))
+  }
+
+while(respuesta != 50){
+      switch(respuesta){
+          case 0: 
+              carrito.push(productos[0])
+              alert(`Agregaste el producto: ${productos[0].nombre}`)
+              productos[0].restarStock()
+              break;
+          case 1:
+              carrito.push(productos[1])
+              alert(`Agregaste el producto: ${productos[1].nombre}`)
+              productos[1].restarStock()
+              break;
+          case 2:
+              carrito.push(productos[2])
+              alert(`Agregaste el producto: ${productos[2].nombre}`)
+              productos[2].restarStock()
+              break;
+          case 3:
+              carrito.push(productos[3])
+              alert(`Agregaste el producto: ${productos[3].nombre}`)
+              productos[3].restarStock()
+              break;
+          default:
+              alert(`No existe el producto seleccionado`)
+              break;
+      }
+      respuesta = parseInt(prompt(productosDisponibles))
+  }
+  alert("Terminamos tú pedido")
+  mostrarCarrito()
 }
 
-if(total > 15000){
-    descuento(total)
+let productosCarrito = `Estas comprando: `
+let precioCarrito = 0
 
-} else {
+agregaCarrito()
 
-    alert(`El total de tu compra es ${total}`)
+function mostrarCarrito(){
+  for (itemsElegidos of carrito){
+      productosCarrito += `\n - ${itemsElegidos.nombre}`
+      precioCarrito += itemsElegidos.precio
+  }
+
+  alert(` \n ${productosCarrito} \n Y tenes que abonar $: ${precioCarrito}`)
 }
 
 
 
-  
+
+
